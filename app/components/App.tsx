@@ -9,11 +9,13 @@ import { flows } from "../modules/flows";
 import { AppDispatch } from "../store";
 import { AppRouter } from "./AppRouter";
 import { LoadingIndicator } from "./shared/LoadingIndicator";
+import { actions } from "../modules/actions";
 
 const appInitAction = injectableFn(
   async (web3Manager: Web3Manager, dispatch: AppDispatch) => {
     dispatch(flows.userAgent.detectUserAgent);
     await web3Manager.initialize();
+    dispatch(actions.app.init());
   },
   [symbols.web3Manager, symbols.appDispatch],
 );

@@ -9,7 +9,7 @@ export const appRoutes = {
 import * as React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import { Dashboard } from "./Dashboard";
+import { Dashboard } from "./dashboard/Dashboard";
 import { Home } from "./Home";
 import { Kyc } from "./kyc/Kyc";
 import { WalletBrowserComponent } from "./WalletLoginHelp";

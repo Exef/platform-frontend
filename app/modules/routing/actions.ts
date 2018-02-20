@@ -1,6 +1,7 @@
 import { createAction } from "../actionsUtils";
 
 import { kycRoutes } from "../../components/kyc/routes";
+import { appRoutes } from "../../components/AppRouter";
 
 const createRoutingAction = (path: string) => createAction("GO_TO_ROUTE", { path });
 
@@ -21,5 +22,9 @@ export const routingActions = {
 
   goToKYCCompanyStart: () => createRoutingAction(kycRoutes.companyStart),
   goToKYCCompanyDone: () => createRoutingAction(kycRoutes.companyDone),
+
+  // dashboard
+  goToDashboard: () => createRoutingAction(appRoutes.dashboard)
+
   // other...
 };

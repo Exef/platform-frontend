@@ -24,6 +24,7 @@ import {
 import { ApiKycService } from "../lib/api/kyc/index";
 import { detectBrowser, TDetectBrowser } from "../lib/dependencies/detectBrowser";
 import { symbols } from "./symbols";
+import { WalletMetadataStorage } from "../lib/web3/WalletMetadataStorage";
 
 export type NavigateTo = (path: string) => void;
 export type GetState = () => IAppState;
@@ -52,6 +53,10 @@ export function setupBindings(config: IConfig): Container {
   container
     .bind<SignatureAuthApi>(symbols.signatureAuthApi)
     .to(SignatureAuthApi)
+    .inSingletonScope();
+  container
+    .bind<WalletMetadataStorage>(symbols.walletMetadataStorage)
+    .to(WalletMetadataStorage)
     .inSingletonScope();
 
   container.bind<LightWalletUtil>(symbols.lightWalletUtil).toConstantValue(lightWalletUtil);

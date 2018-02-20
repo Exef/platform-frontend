@@ -8,7 +8,11 @@ import { browserWalletWizardReducer } from "./modules/wallet-selector/browser-wi
 import { ledgerWizardReducer } from "./modules/wallet-selector/ledger-wizard/reducer";
 import { web3Reducer } from "./modules/web3/reducer";
 
+import { walletSelectorReducer } from "./modules/wallet-selector/reducer";
+
 import { TAction } from "./modules/actions";
+import { authReducer } from "./modules/auth/reducer";
+import { signMessageModalReducer } from "./modules/signMessageModal/reducer";
 
 export interface IAppAction {
   type: string;
@@ -30,6 +34,9 @@ const appReducers = {
   browserWalletWizardState: browserWalletWizardReducer,
   web3State: web3Reducer,
   browser: browserReducer,
+  walletSelector: walletSelectorReducer,
+  auth: authReducer,
+  signMessageModal: signMessageModalReducer,
 };
 
 // add all custom reducers here

@@ -14,6 +14,8 @@ import { promiseTimeout } from "../../utils/promiseTimeout";
 import { ILogger } from "../dependencies/Logger";
 import { IPersonalWallet } from "./PersonalWeb3";
 import { Web3Adapter } from "./Web3Adapter";
+import { WalletMetadataStorage } from "./WalletMetadataStorage";
+import { WalletType } from "../../modules/web3/types";
 
 export interface IEthereumNetworkConfig {
   rpcUrl: string;
@@ -74,6 +76,14 @@ export class Web3Manager {
     );
 
     this.web3ConnectionWatcher.start();
+  }
+
+  public async sign(message: string): Promise<string> {
+    if (this.personalWallet) {
+      return this.personalWallet.signMessage(message);
+    } else {
+      throw new Error("No wallet!");
+    }
   }
 
   private watchConnection = async () => {

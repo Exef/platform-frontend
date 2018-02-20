@@ -12,6 +12,8 @@ import { AppDispatch } from "../../../store";
 import { actions } from "../../actions";
 import { ethereumNetworkIdToNetworkName } from "../../web3/utils";
 import { walletFlows } from "../flows";
+import { WalletMetadataStorage } from "../../../lib/web3/WalletMetadataStorage";
+import { WalletType } from "../../web3/types";
 
 export const browserWizardFlows = {
   tryConnectingWithBrowserWallet: injectableFn(
@@ -20,12 +22,18 @@ export const browserWizardFlows = {
       browserWalletConnector: BrowserWalletConnector,
       web3Manager: Web3Manager,
       logger: ILogger,
+      walletMetadataStorage: WalletMetadataStorage,
     ) => {
       try {
         const browserWallet = await browserWalletConnector.connect(web3Manager.networkId!);
 
         await web3Manager.plugPersonalWallet(browserWallet);
-        dispatch(walletFlows.walletConnected);
+        // todo move saving metadata to unified connect functions
+        // todo browser wallet should save and verify address
+        walletMetadataStorage.saveMetadata({
+          walletType: WalletType.BROWSER,
+        });
+        dispatch(actions.wallet.connected());
       } catch (e) {
         logger.warn("Error while trying to connect with browser wallet: ", e.message);
         dispatch(
@@ -33,7 +41,13 @@ export const browserWizardFlows = {
         );
       }
     },
-    [symbols.appDispatch, symbols.browserWalletConnector, symbols.web3Manager, symbols.logger],
+    [
+      symbols.appDispatch,
+      symbols.browserWalletConnector,
+      symbols.web3Manager,
+      symbols.logger,
+      symbols.walletMetadataStorage,
+    ],
   ),
 };
 

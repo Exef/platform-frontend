@@ -4,6 +4,7 @@ export interface IStorage {
   setKey: (key: string, value: string) => void;
   getKey: (key: string) => string;
 }
+
 @injectable()
 export class Storage {
   constructor(private localStorage: any) {}
