@@ -10,9 +10,9 @@ import { neuTake, getDependency, getDependencies } from "../sagas";
 import { TAction, actions } from "../actions";
 import { Task, effects } from "redux-saga";
 import { UsersApi, IUserData } from "../../lib/api/UsersApi";
-import { WalletMetadataStorage } from "../../lib/web3/WalletMetadataStorage";
+import { WalletMetadataStorage } from "../../lib/persistence/WalletMetadataStorage";
 import { IAppState } from "../../store";
-import { Storage } from "../../lib/dependencies/storage";
+import { Storage } from "../../lib/persistence/Storage";
 import { WalletType } from "../web3/types";
 
 const JWT_LOCAL_STORAGE_KEY = "NF_JWT";

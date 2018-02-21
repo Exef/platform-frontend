@@ -9,7 +9,7 @@ import {
   ILedgerWalletMetadata,
   IBrowserWalletMetadata,
   ILightWalletMetadata,
-} from "../../lib/web3/WalletMetadataStorage";
+} from "../../lib/persistence/WalletMetadataStorage";
 import { WalletType } from "../web3/types";
 import { LedgerWalletConnector } from "../../lib/web3/LedgerWallet";
 import { BrowserWalletConnector } from "../../lib/web3/BrowserWallet";

@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { spy } from "sinon";
 
-import { Storage } from "./storage";
+import { Storage } from "./Storage";
 
 describe("Browser Storage", () => {
   const expectedPhrase = "dummyWallet";

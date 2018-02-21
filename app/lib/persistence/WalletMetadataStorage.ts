@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import { symbols } from "../../di/symbols";
 import { ILogger } from "../dependencies/Logger";
-import { Storage } from "../dependencies/storage";
+import { Storage } from "./Storage";
 import { WalletType } from "../../modules/web3/types";
 
 const STORAGE_WALLET_METADATA_KEY = "NF_WALLET_METADATA";

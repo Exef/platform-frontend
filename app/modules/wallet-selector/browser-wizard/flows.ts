@@ -12,7 +12,7 @@ import { AppDispatch } from "../../../store";
 import { actions } from "../../actions";
 import { ethereumNetworkIdToNetworkName } from "../../web3/utils";
 import { walletFlows } from "../flows";
-import { WalletMetadataStorage } from "../../../lib/web3/WalletMetadataStorage";
+import { WalletMetadataStorage } from "../../../lib/persistence/WalletMetadataStorage";
 import { WalletType } from "../../web3/types";
 
 export const browserWizardFlows = {
