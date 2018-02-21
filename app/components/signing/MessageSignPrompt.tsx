@@ -1,7 +1,7 @@
 import * as React from "react";
+import { selectConnectedWeb3State } from "../../modules/web3/reducer";
 import { WalletType } from "../../modules/web3/types";
 import { appConnect } from "../../store";
-import { selectConnectedWeb3State } from "../../modules/web3/reducer";
 
 interface IStateProps {
   walletType: WalletType;

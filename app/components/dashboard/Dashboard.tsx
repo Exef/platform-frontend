@@ -1,9 +1,7 @@
 import * as React from "react";
-import { Col, Container, Row, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { UserInfo } from "./UserInfo";
-import { LoadingIndicator } from "../shared/LoadingIndicator";
-import { appConnect } from "../../store";
+import { Col, Container, Row } from "reactstrap";
 import { MessageSignModal } from "../modals/SignMessageModal";
+import { UserInfo } from "./UserInfo";
 
 export const Dashboard = () => (
   <Container>

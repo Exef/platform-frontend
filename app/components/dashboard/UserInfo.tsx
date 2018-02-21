@@ -1,8 +1,8 @@
 import * as React from "react";
-import { appConnect } from "../../store";
-import { IUserData } from "../../lib/api/UsersApi";
 import { Button } from "reactstrap";
+import { IUserData } from "../../lib/api/UsersApi";
 import { actions } from "../../modules/actions";
+import { appConnect } from "../../store";
 
 interface IStateProps {
   user?: IUserData;

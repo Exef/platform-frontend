@@ -1,20 +1,20 @@
-import { Web3Manager, SignerError } from "../../lib/web3/Web3Manager";
-import { getDependency, getDependencies } from "../sagas";
-import { symbols } from "../../di/symbols";
-import { actions } from "../actions";
-import { effects } from "redux-saga";
 import { delay } from "bluebird";
+import { effects } from "redux-saga";
+import { symbols } from "../../di/symbols";
 import {
-  WalletMetadataStorage,
-  ILedgerWalletMetadata,
   IBrowserWalletMetadata,
+  ILedgerWalletMetadata,
   ILightWalletMetadata,
+  WalletMetadataStorage,
 } from "../../lib/persistence/WalletMetadataStorage";
-import { WalletType } from "../web3/types";
-import { LedgerWalletConnector } from "../../lib/web3/LedgerWallet";
 import { BrowserWalletConnector } from "../../lib/web3/BrowserWallet";
+import { LedgerWalletConnector } from "../../lib/web3/LedgerWallet";
 import { LightWalletConnector, LightWalletUtil } from "../../lib/web3/LightWallet";
+import { SignerError, Web3Manager } from "../../lib/web3/Web3Manager";
 import { invariant } from "../../utils/invariant";
+import { actions } from "../actions";
+import { getDependencies } from "../sagas";
+import { WalletType } from "../web3/types";
 
 export function* messageSign(message: string): Iterator<any> {
   yield effects.put(actions.signMessageModal.show());
@@ -31,13 +31,12 @@ export function* messageSign(message: string): Iterator<any> {
   while (true) {
     try {
       yield (ensureWalletConnection as any)(...deps);
-      console.log("Wallet ensured!");
 
       const signedMessage = yield web3Manager.sign(message);
       yield effects.put(actions.signMessageModal.hide());
       return signedMessage;
     } catch (e) {
-      yield effects.put(actions.signMessageModal.signingError("error: " + e.message));
+      yield effects.put(actions.signMessageModal.signingError(e.message)); // todo: better error management
 
       if (!(e instanceof SignerError)) {
         yield delay(500);
@@ -53,7 +52,7 @@ export async function ensureWalletConnection(
   ledgerWalletConnector: LedgerWalletConnector,
   browserWalletConnector: BrowserWalletConnector,
   lightWalletConnector: LightWalletConnector,
-) {
+): Promise<void> {
   if (web3Manager.personalWallet) {
     return;
   }
@@ -77,7 +76,7 @@ async function connectLedger(
   ledgerWalletConnector: LedgerWalletConnector,
   web3Manager: Web3Manager,
   metadata: ILedgerWalletMetadata,
-) {
+): Promise<void> {
   await ledgerWalletConnector.connect(web3Manager.networkId!);
   const wallet = await ledgerWalletConnector.finishConnecting(metadata.derivationPath);
   await web3Manager.plugPersonalWallet(wallet);
@@ -87,7 +86,7 @@ async function connectBrowser(
   browserWalletConnector: BrowserWalletConnector,
   web3Manager: Web3Manager,
   metadata: IBrowserWalletMetadata,
-) {
+): Promise<void> {
   const wallet = await browserWalletConnector.connect(web3Manager.networkId!);
   await web3Manager.plugPersonalWallet(wallet);
 }
@@ -96,7 +95,7 @@ async function connectLightWallet(
   lightWalletConnector: LightWalletConnector,
   web3Manager: Web3Manager,
   metadata: ILightWalletMetadata,
-) {
+): Promise<void> {
   const lightWalletUtils = new LightWalletUtil();
   const walletInstance = await lightWalletUtils.deserializeLightWalletVault(
     metadata.vault,

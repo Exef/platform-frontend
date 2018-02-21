@@ -3,12 +3,12 @@ import * as React from "react";
 import { NavLink } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 
+import { appConnect } from "../../store";
 import { LayoutRegisterLogin } from "../layouts/LayoutRegisterLogin";
+import { WalletMessageSigner } from "./WalletMessageSigner";
 import { WalletRouter } from "./WalletRouter";
 import { walletRoutes } from "./walletRoutes";
 import * as styles from "./WalletSelector.module.scss";
-import { appConnect } from "../../store";
-import { WalletMessageSigner } from "./WalletMessageSigner";
 
 interface IStateProps {
   isMessageSigning: boolean;

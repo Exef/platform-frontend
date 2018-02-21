@@ -3,6 +3,7 @@ import { toPairs, zip } from "lodash";
 import { pairZip } from "../../../../typings/modifications";
 import { GetState } from "../../../di/setupBindings";
 import { symbols } from "../../../di/symbols";
+import { WalletMetadataStorage } from "../../../lib/persistence/WalletMetadataStorage";
 import {
   LedgerLockedError,
   LedgerNotAvailableError,
@@ -12,8 +13,6 @@ import { Web3Manager } from "../../../lib/web3/Web3Manager";
 import { injectableFn } from "../../../middlewares/redux-injectify";
 import { AppDispatch } from "../../../store";
 import { actions } from "../../actions";
-import { walletFlows } from "../flows";
-import { WalletMetadataStorage } from "../../../lib/persistence/WalletMetadataStorage";
 import { WalletType } from "../../web3/types";
 
 export const LEDGER_WIZARD_SIMPLE_DERIVATION_PATHS = ["44'/60'/1'/0", "44'/60'/0'/0"]; // TODO this should be taken from config

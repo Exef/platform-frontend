@@ -1,8 +1,8 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { symbols } from "../../di/symbols";
+import { WalletType } from "../../modules/web3/types";
 import { ILogger } from "../dependencies/Logger";
 import { Storage } from "./Storage";
-import { WalletType } from "../../modules/web3/types";
 
 const STORAGE_WALLET_METADATA_KEY = "NF_WALLET_METADATA";
 
@@ -34,7 +34,7 @@ export class WalletMetadataStorage {
     @inject(symbols.logger) private readonly logger: ILogger,
   ) {}
 
-  saveMetadata(metadata: TWalletMetadata) {
+  saveMetadata(metadata: TWalletMetadata): void {
     this.logger.info(`Storing wallet metadata for ${metadata.walletType} in storage...`);
 
     this.storage.setKey(STORAGE_WALLET_METADATA_KEY, JSON.stringify(metadata));

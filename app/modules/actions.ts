@@ -1,14 +1,14 @@
 import { values } from "lodash";
 
+import { appActions } from "./app/actions";
+import { authActions } from "./auth/actions";
+import { dashboardActions } from "./dashboard/actions";
 import { kycActions } from "./kyc/actions";
 import { routingActions } from "./routing/actions";
+import { signMessageModalActions } from "./signMessageModal/actions";
 import { userAgentActions } from "./userAgent/actions";
 import { walletActions } from "./wallet-selector/actions";
 import { web3Actions } from "./web3/actions";
-import { authActions } from "./auth/actions";
-import { appActions } from "./app/actions";
-import { dashboardActions } from "./dashboard/actions";
-import { signMessageModalActions } from "./signMessageModal/actions";
 
 export const actions = {
   dashboard: dashboardActions,

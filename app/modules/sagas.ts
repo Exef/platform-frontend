@@ -3,11 +3,11 @@ import { TAction } from "./actions";
 
 import { Container } from "inversify";
 
+import { authSagas } from "./auth/sagas";
+import { dashboardSagas } from "./dashboard/sagas";
 import { kycSagas } from "./kyc/sagas";
 import { routingSagas } from "./routing/sagas";
-import { authSagas } from "./auth/sagas";
 import { walletSelectorSagas } from "./wallet-selector/sagas";
-import { dashboardSagas } from "./dashboard/sagas";
 
 /**
  * Restart all sagas on error and report error to sentry

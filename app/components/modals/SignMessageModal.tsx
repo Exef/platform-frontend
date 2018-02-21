@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
 import { appConnect } from "../../store";
 import { LoadingIndicator } from "../shared/LoadingIndicator";

@@ -1,15 +1,15 @@
-import { TAction, actions } from "../actions";
 import { effects } from "redux-saga";
-import { getDependencies, getDependency, neuTake } from "../sagas";
-import { symbols } from "../../di/symbols";
-import { Web3Manager } from "../../lib/web3/Web3Manager";
 import { GetState } from "../../di/setupBindings";
+import { symbols } from "../../di/symbols";
 import { SignatureAuthApi } from "../../lib/api/SignatureAuthApi";
 import { CryptoRandomString } from "../../lib/dependencies/cryptoRandomString";
 import { ILogger } from "../../lib/dependencies/Logger";
-import { selectEthereumAddressWithChecksum } from "../web3/reducer";
+import { Web3Manager } from "../../lib/web3/Web3Manager";
 import { IAppState } from "../../store";
+import { actions, TAction } from "../actions";
 import { loadUser } from "../auth/sagas";
+import { getDependencies, getDependency, neuTake } from "../sagas";
+import { selectEthereumAddressWithChecksum } from "../web3/reducer";
 
 function* signInUser(): Iterator<any> {
   while (true) {

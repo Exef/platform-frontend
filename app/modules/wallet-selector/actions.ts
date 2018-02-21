@@ -1,9 +1,8 @@
+import { createAction, createSimpleAction } from "../actionsUtils";
 import { browserWizzardActions } from "./browser-wizard/actions";
 import { ledgerWizzardActions } from "./ledger-wizard/actions";
 import { lightWizzardActions } from "./light-wizard/actions";
-import { createAction, createSimpleAction } from "../actionsUtils";
 
-import { TWalletTab } from "./reducer";
 
 const actions = {
   connected: () => createSimpleAction("WALLET_SELECTOR_CONNECTED"),

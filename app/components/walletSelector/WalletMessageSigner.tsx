@@ -1,10 +1,10 @@
 import * as React from "react";
-import { LoadingIndicator } from "../shared/LoadingIndicator";
-import { appConnect } from "../../store";
-import { compose } from "redux";
-import { MessageSignPrompt } from "../signing/MessageSignPrompt";
 import { Button } from "reactstrap";
+import { compose } from "redux";
 import { actions } from "../../modules/actions";
+import { appConnect } from "../../store";
+import { LoadingIndicator } from "../shared/LoadingIndicator";
+import { MessageSignPrompt } from "../signing/MessageSignPrompt";
 
 interface IStateProps {
   errorMsg?: string;

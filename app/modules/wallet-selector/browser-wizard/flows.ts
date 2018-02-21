@@ -1,5 +1,6 @@
 import { symbols } from "../../../di/symbols";
 import { ILogger } from "../../../lib/dependencies/Logger";
+import { WalletMetadataStorage } from "../../../lib/persistence/WalletMetadataStorage";
 import {
   BrowserWalletConnector,
   BrowserWalletLockedError,
@@ -10,10 +11,8 @@ import { Web3Manager } from "../../../lib/web3/Web3Manager";
 import { injectableFn } from "../../../middlewares/redux-injectify";
 import { AppDispatch } from "../../../store";
 import { actions } from "../../actions";
-import { ethereumNetworkIdToNetworkName } from "../../web3/utils";
-import { walletFlows } from "../flows";
-import { WalletMetadataStorage } from "../../../lib/persistence/WalletMetadataStorage";
 import { WalletType } from "../../web3/types";
+import { ethereumNetworkIdToNetworkName } from "../../web3/utils";
 
 export const browserWizardFlows = {
   tryConnectingWithBrowserWallet: injectableFn(

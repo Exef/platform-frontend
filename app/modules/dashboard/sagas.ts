@@ -1,7 +1,6 @@
-import { neuTake } from "../sagas";
-import { TAction } from "../actions";
-import { Web3Manager } from "../../lib/web3/Web3Manager";
 import { effects } from "redux-saga";
+import { TAction } from "../actions";
+import { neuTake } from "../sagas";
 import { messageSign } from "../signMessageModal/sagas";
 
 function* signDummyMessage(): Iterator<any> {
@@ -14,6 +13,8 @@ function* signDummyMessage(): Iterator<any> {
 
     const signed = yield messageSign(message);
 
+    // this is just for demo purposes
+    // tslint:disable-next-line
     console.log("signed: ", signed);
   }
 }

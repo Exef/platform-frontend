@@ -5,11 +5,11 @@ import { ToastContainer } from "react-toastify";
 import { symbols } from "../di/symbols";
 import { Web3Manager } from "../lib/web3/Web3Manager";
 import { injectableFn } from "../middlewares/redux-injectify";
+import { actions } from "../modules/actions";
 import { flows } from "../modules/flows";
 import { AppDispatch } from "../store";
 import { AppRouter } from "./AppRouter";
 import { LoadingIndicator } from "./shared/LoadingIndicator";
-import { actions } from "../modules/actions";
 
 const appInitAction = injectableFn(
   async (web3Manager: Web3Manager, dispatch: AppDispatch) => {

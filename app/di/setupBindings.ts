@@ -23,8 +23,8 @@ import {
 
 import { ApiKycService } from "../lib/api/kyc/index";
 import { detectBrowser, TDetectBrowser } from "../lib/dependencies/detectBrowser";
-import { symbols } from "./symbols";
 import { WalletMetadataStorage } from "../lib/persistence/WalletMetadataStorage";
+import { symbols } from "./symbols";
 
 export type NavigateTo = (path: string) => void;
 export type GetState = () => IAppState;

@@ -1,8 +1,7 @@
 import { symbols } from "../../../di/symbols";
-import { UsersApi } from "../../../lib/api/UsersApi";
 import { VaultApi } from "../../../lib/api/VaultApi";
 import { ILogger } from "../../../lib/dependencies/Logger";
-import { IStorage } from "../../../lib/persistence/Storage";
+import { WalletMetadataStorage } from "../../../lib/persistence/WalletMetadataStorage";
 import {
   LightCreationError,
   LightDesirializeError,
@@ -15,10 +14,7 @@ import { Web3Manager } from "../../../lib/web3/Web3Manager";
 import { injectableFn } from "../../../middlewares/redux-injectify";
 import { AppDispatch } from "../../../store";
 import { actions } from "../../actions";
-import { WalletMetadataStorage } from "../../../lib/persistence/WalletMetadataStorage";
 import { WalletType } from "../../web3/types";
-
-const LOCAL_STORAGE_LIGHT_WALLET_KEY = "LIGHT_WALLET";
 
 export const lightWizardFlows = {
   tryConnectingWithLightWallet: (email: string, password: string) =>
@@ -30,7 +26,6 @@ export const lightWizardFlows = {
         lightWalletUtil: LightWalletUtil,
         walletMetadataStorage: WalletMetadataStorage,
         vaultApi: VaultApi,
-        usersApi: UsersApi,
         logger: ILogger,
       ) => {
         try {
@@ -72,7 +67,6 @@ export const lightWizardFlows = {
         symbols.lightWalletUtil,
         symbols.walletMetadataStorage,
         symbols.vaultApi,
-        symbols.usersApi,
         symbols.logger,
       ],
     ),

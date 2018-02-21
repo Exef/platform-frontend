@@ -1,18 +1,10 @@
-import { GetState } from "../../di/setupBindings";
+import { effects } from "redux-saga";
 import { symbols } from "../../di/symbols";
-import { SignatureAuthApi } from "../../lib/api/SignatureAuthApi";
-import { CryptoRandomString } from "../../lib/dependencies/cryptoRandomString";
-import { ILogger } from "../../lib/dependencies/Logger";
-import { Web3Manager } from "../../lib/web3/Web3Manager";
-import { injectableFn } from "../../middlewares/redux-injectify";
-import { selectEthereumAddressWithChecksum } from "../web3/reducer";
-import { neuTake, getDependency, getDependencies } from "../sagas";
-import { TAction, actions } from "../actions";
-import { Task, effects } from "redux-saga";
-import { UsersApi, IUserData } from "../../lib/api/UsersApi";
-import { WalletMetadataStorage } from "../../lib/persistence/WalletMetadataStorage";
-import { IAppState } from "../../store";
+import { IUserData, UsersApi } from "../../lib/api/UsersApi";
 import { Storage } from "../../lib/persistence/Storage";
+import { WalletMetadataStorage } from "../../lib/persistence/WalletMetadataStorage";
+import { actions } from "../actions";
+import { getDependency, neuTake } from "../sagas";
 import { WalletType } from "../web3/types";
 
 const JWT_LOCAL_STORAGE_KEY = "NF_JWT";
@@ -52,108 +44,6 @@ export function* loadUser(): Iterator<any> {
   }
   yield effects.put(actions.auth.loadUser(me!));
 }
-
-// startupUser
-// get JWT
-// userservice.me
-
-// function* signinUser(): Iterator<any> {
-//   const jwt: string | undefined = yield getJwt();
-
-//   if (!jwt) {
-//     return;
-//   }
-
-// const usersApi: UsersApi = yield getDependency(symbols.usersApi);
-// const me: IUser | undefined = yield usersApi.me();
-
-// if (me) {
-//   yield effects.put(actions.auth.loadUser(me));
-// }
-// }
-
-// function* getJwt(): Iterator<any> {
-//   // this could be abstracted to separate dependency managing jwt token
-//   const storage: Storage = yield getDependency(symbols.storage);
-
-//   const jwt = storage.getItem(JWT_LOCAL_STORAGE_KEY);
-
-//   if (!jwt) {
-//     return;
-//   }
-
-//   yield effects.put(actions.auth.loadJWT(jwt));
-
-//   return jwt;
-// }
-// take(INIT);
-// const jwt = JWT_LOADER();  // this gets JWT from localstorage, checks if its valid and stores it in store as well
-// if (!jwt) {
-// yield take(WEB3_WALLET_SETUP);
-// }
-// let user = UserService.me();
-// if (!user) {
-// if (wallet === lightWallet) {
-//   user = yield UserService.createUser(lightwallet.email, lightwallet.salt)
-// } else {
-//   user = yield UserService.createUser();
-// }
-// }
-// put(SET_USER)
-
-// let currentTask: Task | undefined = undefined
-
-// function* signinUser(): Iterator<any> {
-//   yield take("ROUTE ACTION /LOGIN OR /REGISTER");
-//   yield call
-// }
-
-// function* watchSigninUser(): Iterator<any> {
-//   while (true){
-//     yield take("ROUTE ACTION /LOGIN OR /REGISTER");
-//     if ( currentTask ) yield cancel(currentTask)
-//     currentTask = yield fork(signinUser)
-//   }
-// }
-
-// export const sagas = {
-//   obtainJwt: injectableFn(
-//     async (
-//       web3Manager: Web3Manager,
-//       getState: GetState,
-//       signatureAuthApi: SignatureAuthApi,
-//       cryptoRandomString: CryptoRandomString,
-//       logger: ILogger,
-//     ) => {
-//       const address = selectEthereumAddressWithChecksum(getState().web3State);
-
-//       const salt = cryptoRandomString(64);
-
-//       const signerType = web3Manager.personalWallet!.signerType;
-
-//       logger.info("Obtaining auth challenge from api");
-//       const { body: { challenge } } = await signatureAuthApi.challenge(address, salt, signerType);
-
-//       logger.info("Signing challenge");
-//       const signedChallenge = await web3Manager.personalWallet!.signMessage(challenge);
-
-//       logger.info("Sending signed challenge back to api");
-//       const { body: { jwt } } = await signatureAuthApi.createJwt(
-//         challenge,
-//         signedChallenge,
-//         signerType,
-//       );
-//       logger.info("JWT obtained!", jwt); // get rid of printing jwt in near future
-//     },
-// [
-//   symbols.web3Manager,
-//   symbols.getState,
-//   symbols.signatureAuthApi,
-//   symbols.cryptoRandomString,
-//   symbols.logger,
-// ],
-//   )
-// }
 
 export const authSagas = function*(): Iterator<effects.Effect> {
   yield effects.all([effects.fork(startup)]);

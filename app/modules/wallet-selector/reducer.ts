@@ -2,19 +2,19 @@ import { AppReducer } from "../../store";
 
 export type TWalletTab = "light" | "browser" | "ledger";
 
-export interface WalletSelectorState {
+export interface IWalletSelectorState {
   isMessageSigning: boolean;
   messageSigningError?: string;
 }
 
-const walletSelectorInitialState: WalletSelectorState = {
+const walletSelectorInitialState: IWalletSelectorState = {
   isMessageSigning: false,
 };
 
-export const walletSelectorReducer: AppReducer<WalletSelectorState> = (
+export const walletSelectorReducer: AppReducer<IWalletSelectorState> = (
   state = walletSelectorInitialState,
   action,
-): WalletSelectorState => {
+): IWalletSelectorState => {
   switch (action.type) {
     case "WALLET_SELECTOR_MESSAGE_SIGNING":
       return {

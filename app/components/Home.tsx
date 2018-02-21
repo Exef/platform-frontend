@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Col, Container, Row } from "reactstrap";
-import { appConnect } from "../store";
 
 export const Home: React.SFC = () => (
   <Container>

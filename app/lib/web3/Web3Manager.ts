@@ -14,8 +14,6 @@ import { promiseTimeout } from "../../utils/promiseTimeout";
 import { ILogger } from "../dependencies/Logger";
 import { IPersonalWallet } from "./PersonalWeb3";
 import { Web3Adapter } from "./Web3Adapter";
-import { WalletMetadataStorage } from "../persistence/WalletMetadataStorage";
-import { WalletType } from "../../modules/web3/types";
 
 export interface IEthereumNetworkConfig {
   rpcUrl: string;
