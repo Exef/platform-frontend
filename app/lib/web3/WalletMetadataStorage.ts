@@ -25,7 +25,7 @@ export interface ILedgerWalletMetadata {
 }
 
 /**
- * Stores metadata about wallet (vault, salt) in injected storage.
+ * Stores metadata about different wallets in injected storage. It can return sensitive data  (light wallet vault, salt).
  */
 @injectable()
 export class WalletMetadataStorage {
@@ -40,11 +40,11 @@ export class WalletMetadataStorage {
     this.storage.setKey(STORAGE_WALLET_METADATA_KEY, JSON.stringify(metadata));
   }
 
-  getMetadata(): Partial<TWalletMetadata> {
+  getMetadata(): TWalletMetadata | undefined {
     const rawData = this.storage.getKey(STORAGE_WALLET_METADATA_KEY);
     if (!rawData) {
       this.logger.info(`Wallet metadata missing from storage`);
-      return {};
+      return undefined;
     }
 
     this.logger.info(`Wallet metadata got from storage`);

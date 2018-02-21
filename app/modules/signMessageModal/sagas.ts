@@ -14,6 +14,7 @@ import { WalletType } from "../web3/types";
 import { LedgerWalletConnector } from "../../lib/web3/LedgerWallet";
 import { BrowserWalletConnector } from "../../lib/web3/BrowserWallet";
 import { LightWalletConnector } from "../../lib/web3/LightWallet";
+import { invariant } from "../../utils/invariant";
 
 export function* messageSign(message: string): Iterator<any> {
   yield effects.put(actions.signMessageModal.show());
@@ -55,22 +56,20 @@ export async function ensureWalletConnection(
   if (web3Manager.personalWallet) {
     return;
   }
-  const metadata = walletMetadata.getMetadata();
+  const metadata = walletMetadata.getMetadata()!;
 
-  if (metadata.walletType === WalletType.LEDGER) {
-    console.log("LEDGER WALLET DETECTED!");
-    return await connectLedger(ledgerWalletConnector, web3Manager, metadata as any); // @todo metadata should be null not partial
-  }
-  if (metadata.walletType === WalletType.BROWSER) {
-    console.log("BROWSER WALLET DETECTED!");
+  invariant(metadata, "User has JWT but doesn't have wallet metadata!");
 
-    return await connectBrowser(browserWalletConnector, web3Manager, metadata as any);
+  switch (metadata.walletType) {
+    case WalletType.LEDGER:
+      return await connectLedger(ledgerWalletConnector, web3Manager, metadata as any);
+    case WalletType.BROWSER:
+      return await connectBrowser(browserWalletConnector, web3Manager, metadata as any);
+    case WalletType.LIGHT:
+      return await connectLightWallet(lightWalletConnector, web3Manager, metadata as any);
+    default:
+      invariant(false, "Wallet type unrecognized");
   }
-  if (metadata.walletType === WalletType.LIGHT) {
-    console.log("LIGHT WALLET DETECTED!");
-    return await connectLightWallet(lightWalletConnector, web3Manager, metadata as any);
-  }
-  throw new Error("Unrecognized wallet!")
 }
 
 async function connectLedger(
