@@ -13,7 +13,7 @@ import {
 import { WalletType } from "../web3/types";
 import { LedgerWalletConnector } from "../../lib/web3/LedgerWallet";
 import { BrowserWalletConnector } from "../../lib/web3/BrowserWallet";
-import { LightWalletConnector } from "../../lib/web3/LightWallet";
+import { LightWalletConnector, LightWalletUtil } from "../../lib/web3/LightWallet";
 import { invariant } from "../../utils/invariant";
 
 export function* messageSign(message: string): Iterator<any> {
@@ -36,6 +36,7 @@ export function* messageSign(message: string): Iterator<any> {
       yield effects.put(actions.signMessageModal.hide());
       return signedMessage;
     } catch (e) {
+      debugger;
       yield effects.put(actions.signMessageModal.signingError("error: " + e.message));
 
       if (!(e instanceof SignerError)) {
@@ -96,9 +97,16 @@ async function connectLightWallet(
   web3Manager: Web3Manager,
   metadata: ILightWalletMetadata,
 ) {
+  const lightWalletUtils = new LightWalletUtil();
+  const walletInstance = await lightWalletUtils.deserializeLightWalletVault(
+    metadata.vault,
+    metadata.salt,
+  );
+
   const wallet = await lightWalletConnector.connect({
-    walletInstance: metadata.vault,
+    walletInstance,
     salt: metadata.salt,
   });
+  (wallet as any).password = "password123"; // REMOVE IITTTTTTTTTTTTTTTTTT
   await web3Manager.plugPersonalWallet(wallet);
 }

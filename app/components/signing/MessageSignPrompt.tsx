@@ -14,6 +14,14 @@ export const BrowserWalletMessageSignPrompt: React.SFC = () => (
   </div>
 );
 
+// this get more complicated when light wallet is locked
+export const LightWalletMessageSignPrompt: React.SFC = () => (
+  <div className="text-center">
+    <h1>Confirm your wallet ownership</h1>
+    <p>Please confirm on selected existing wallet that you will be using it for Neufund platform</p>
+  </div>
+);
+
 export const LedgerWalletMessageSignPrompt: React.SFC = () => (
   <div className="text-center">
     <h1>Confirm you Ledger Ownership</h1>
@@ -31,7 +39,7 @@ export const MessageSignPromptComponent: React.SFC<IStateProps> = ({ walletType 
     case WalletType.LEDGER:
       return <LedgerWalletMessageSignPrompt />;
     default:
-      throw new Error();
+      return <LightWalletMessageSignPrompt />
   }
 };
 

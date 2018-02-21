@@ -125,15 +125,12 @@ export class LightWallet implements IPersonalWallet {
     }
     return !!await this.web3Adapter.getAccountAddress();
   }
+
   public async signMessage(data: string): Promise<string> {
     try {
-      if (!this.password) {
-        //TODO: implement password prompt and password timer
-        this.password = "password";
-      }
       const rawSignedMsg = await LightWalletProvider.signing.signMsg(
         this.vault.walletInstance,
-        await LightWalletUtil.getWalletKey(this.vault.walletInstance, this.password),
+        await LightWalletUtil.getWalletKey(this.vault.walletInstance, this.password!),
         data,
         this.ethereumAddress,
       );
@@ -141,6 +138,7 @@ export class LightWallet implements IPersonalWallet {
       // @see https://github.com/ethereumjs/ethereumjs-util/blob/master/docs/index.md#torpcsig
       return ethUtils.toRpcSig(rawSignedMsg.v, rawSignedMsg.r, rawSignedMsg.s);
     } catch (e) {
+      debugger;
       throw new LightSignMessageError();
     }
   }
@@ -156,6 +154,7 @@ export class LightWalletConnector {
   public readonly walletSubType: WalletSubType = WalletSubType.UNKNOWN;
 
   public async connect(lightWalletVault: IVault): Promise<IPersonalWallet> {
+    console.log("lightWalletVault: ", lightWalletVault);
     try {
       this.web3Adapter = new Web3Adapter(await this.setWeb3Provider(lightWalletVault));
       return new LightWallet(
