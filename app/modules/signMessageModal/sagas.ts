@@ -32,11 +32,11 @@ export function* messageSign(message: string): Iterator<any> {
     try {
       yield (ensureWalletConnection as any)(...deps);
       console.log("Wallet ensured!");
+
       const signedMessage = yield web3Manager.sign(message);
       yield effects.put(actions.signMessageModal.hide());
       return signedMessage;
     } catch (e) {
-      debugger;
       yield effects.put(actions.signMessageModal.signingError("error: " + e.message));
 
       if (!(e instanceof SignerError)) {
@@ -63,11 +63,11 @@ export async function ensureWalletConnection(
 
   switch (metadata.walletType) {
     case WalletType.LEDGER:
-      return await connectLedger(ledgerWalletConnector, web3Manager, metadata as any);
+      return await connectLedger(ledgerWalletConnector, web3Manager, metadata);
     case WalletType.BROWSER:
-      return await connectBrowser(browserWalletConnector, web3Manager, metadata as any);
+      return await connectBrowser(browserWalletConnector, web3Manager, metadata);
     case WalletType.LIGHT:
-      return await connectLightWallet(lightWalletConnector, web3Manager, metadata as any);
+      return await connectLightWallet(lightWalletConnector, web3Manager, metadata);
     default:
       invariant(false, "Wallet type unrecognized");
   }
@@ -103,10 +103,11 @@ async function connectLightWallet(
     metadata.salt,
   );
 
-  const wallet = await lightWalletConnector.connect({
-    walletInstance,
-    salt: metadata.salt,
-  });
-  (wallet as any).password = "password123"; // REMOVE IITTTTTTTTTTTTTTTTTT
+  const wallet = await lightWalletConnector.connect(
+    {
+      walletInstance,
+      salt: metadata.salt,
+    },
+  );
   await web3Manager.plugPersonalWallet(wallet);
 }

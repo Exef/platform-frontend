@@ -57,9 +57,8 @@ export const lightWizardFlows = {
           const lightWallet = await lightWalletConnector.connect({
             walletInstance,
             salt: lightWalletVault.salt,
-          });
+          }, password);
           await web3Manager.plugPersonalWallet(lightWallet);
-          (lightWallet as any).password = password;
           dispatch(actions.wallet.connected());
         } catch (e) {
           logger.warn("Error while trying to connect with light wallet: ", e.message);

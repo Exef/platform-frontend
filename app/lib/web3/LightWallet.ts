@@ -16,6 +16,8 @@ import { WalletSubType, WalletType } from "../../modules/web3/types";
 import { EthereumAddress } from "../../types";
 import { Web3Adapter } from "./Web3Adapter";
 
+const LIGHT_WALLET_PASSWORD_CACHE_TIME = 1000 * 60 * 5;
+
 export interface ICreateVault {
   password: string;
   hdPathString: string;
@@ -51,6 +53,7 @@ export class LightSignMessageError extends LightWalletError {}
 export class LightUnknownError extends LightError {}
 export class LightCreationError extends LightWalletUtilError {}
 export class LightDesirializeError extends LightWalletUtilError {}
+export class LightWalletMissingPassword extends LightWalletError {}
 
 @injectable()
 export class LightWalletUtil {
@@ -111,12 +114,23 @@ export class LightWallet implements IPersonalWallet {
     public readonly web3Adapter: Web3Adapter,
     public readonly ethereumAddress: EthereumAddress,
     private vault: IVault,
-  ) {}
+    password?: string,
+  ) {
+    this.password = password;
+  }
   public readonly walletType = WalletType.LIGHT;
   public readonly walletSubType = WalletSubType.UNKNOWN;
   public readonly signerType = SignerType.ETH_SIGN;
 
-  private password?: string;
+  // autoclear password after some time
+  private _password?: string;
+  set password(newPassword: string | undefined) {
+    this._password = newPassword;
+
+    setTimeout(() => {
+      this._password = undefined;
+    }, LIGHT_WALLET_PASSWORD_CACHE_TIME);
+  }
 
   public async testConnection(networkId: string): Promise<boolean> {
     const currentNetworkId = await this.web3Adapter.getNetworkId();
@@ -127,6 +141,12 @@ export class LightWallet implements IPersonalWallet {
   }
 
   public async signMessage(data: string): Promise<string> {
+    const password = this._password;
+
+    if (!password) {
+      throw new LightWalletMissingPassword();
+    }
+
     try {
       const rawSignedMsg = await LightWalletProvider.signing.signMsg(
         this.vault.walletInstance,
@@ -134,11 +154,10 @@ export class LightWallet implements IPersonalWallet {
         data,
         this.ethereumAddress,
       );
-      // from signature parameters  to eth_sign RPC
+      // from signature parameters to eth_sign RPC
       // @see https://github.com/ethereumjs/ethereumjs-util/blob/master/docs/index.md#torpcsig
       return ethUtils.toRpcSig(rawSignedMsg.v, rawSignedMsg.r, rawSignedMsg.s);
     } catch (e) {
-      debugger;
       throw new LightSignMessageError();
     }
   }
@@ -153,14 +172,14 @@ export class LightWalletConnector {
 
   public readonly walletSubType: WalletSubType = WalletSubType.UNKNOWN;
 
-  public async connect(lightWalletVault: IVault): Promise<IPersonalWallet> {
-    console.log("lightWalletVault: ", lightWalletVault);
+  public async connect(lightWalletVault: IVault, password?: string): Promise<IPersonalWallet> {
     try {
       this.web3Adapter = new Web3Adapter(await this.setWeb3Provider(lightWalletVault));
       return new LightWallet(
         this.web3Adapter,
         await this.web3Adapter.getAccountAddress(),
         lightWalletVault,
+        password,
       );
     } catch (e) {
       if (e instanceof LightError) {
