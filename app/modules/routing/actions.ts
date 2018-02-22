@@ -2,8 +2,9 @@ import { createAction } from "../actionsUtils";
 
 import { appRoutes } from "../../components/AppRouter";
 import { kycRoutes } from "../../components/kyc/routes";
+import { push } from "react-router-redux";
 
-const createRoutingAction = (path: string) => createAction("GO_TO_ROUTE", { path });
+const createRoutingAction = (path: string) => push(path);
 
 export const routingActions = {
   // navigate back

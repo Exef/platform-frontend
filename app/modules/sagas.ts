@@ -6,7 +6,6 @@ import { Container } from "inversify";
 import { authSagas } from "./auth/sagas";
 import { dashboardSagas } from "./dashboard/sagas";
 import { kycSagas } from "./kyc/sagas";
-import { routingSagas } from "./routing/sagas";
 import { walletSelectorSagas } from "./wallet-selector/sagas";
 
 /**
@@ -14,7 +13,6 @@ import { walletSelectorSagas } from "./wallet-selector/sagas";
  */
 function* allSagas(): Iterator<effects.Effect> {
   yield effects.all([
-    effects.fork(routingSagas),
     effects.fork(kycSagas),
     effects.fork(authSagas),
     effects.fork(walletSelectorSagas),
