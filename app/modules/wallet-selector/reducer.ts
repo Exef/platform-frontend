@@ -22,19 +22,18 @@ export const walletSelectorReducer: AppReducer<IWalletSelectorState> = (
         isMessageSigning: true,
         messageSigningError: undefined,
       };
-    case "WALLET_SELECTOR_MESSAGE_SIGNING_ERROR": {
+    case "WALLET_SELECTOR_MESSAGE_SIGNING_ERROR":
       return {
         ...state,
         messageSigningError: action.payload.errorMessage,
       };
-    }
-    case "WALLET_SELECTOR_MESSAGE_SIGNING_CANCELLED": {
+
+    case "WALLET_SELECTOR_RESET":
       return {
         ...state,
         isMessageSigning: false,
         messageSigningError: undefined,
       };
-    }
   }
 
   return state;

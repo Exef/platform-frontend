@@ -1,5 +1,5 @@
 import { connect, InferableComponentEnhancerWithProps, Options } from "react-redux";
-import { routerReducer } from "react-router-redux";
+import { routerReducer, LocationChangeAction } from "react-router-redux";
 import { combineReducers } from "redux";
 
 import { browserReducer } from "./modules/userAgent/reducer";
@@ -25,8 +25,10 @@ export type AppDispatch = (a: AppActionTypes | Function) => void;
 
 export type AppReducer<S> = (state: Readonly<S> | undefined, action: AppActionTypes) => S;
 
-// add new actions here
-export type AppActionTypes = TAction;
+type TRouterActions = LocationChangeAction;
+
+// add new external actions here
+export type AppActionTypes = TAction | TRouterActions;
 
 // add new app reducers here. They must be AppReducer<T> type
 const appReducers = {

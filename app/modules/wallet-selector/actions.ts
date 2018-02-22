@@ -5,11 +5,11 @@ import { lightWizzardActions } from "./light-wizard/actions";
 
 
 const actions = {
+  reset: () => createSimpleAction("WALLET_SELECTOR_RESET"),
   connected: () => createSimpleAction("WALLET_SELECTOR_CONNECTED"),
   messageSigning: () => createSimpleAction("WALLET_SELECTOR_MESSAGE_SIGNING"),
-  messageSigningCancelled: () => createSimpleAction("WALLET_SELECTOR_MESSAGE_SIGNING_CANCELLED"),
   messageSigningError: (errorMessage: string) =>
-    createAction("WALLET_SELECTOR_MESSAGE_SIGNING_ERROR", { errorMessage }),
+  createAction("WALLET_SELECTOR_MESSAGE_SIGNING_ERROR", { errorMessage }),
 };
 
 export const walletActions = {

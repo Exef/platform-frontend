@@ -10,6 +10,7 @@ import { userAgentActions } from "./userAgent/actions";
 import { walletActions } from "./wallet-selector/actions";
 import { web3Actions } from "./web3/actions";
 
+/** You should add new actions also here (with a namespace).*/
 export const actions = {
   dashboard: dashboardActions,
   signMessageModal: signMessageModalActions,
@@ -23,7 +24,7 @@ export const actions = {
 };
 
 /**
- * Merge all actions into main action object
+ * Merge all actions into main action object. Add new set of actions here.
  */
 const allActions = {
   ...dashboardActions,

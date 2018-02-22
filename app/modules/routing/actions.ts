@@ -24,7 +24,10 @@ export const routingActions = {
   goToKYCCompanyDone: () => createRoutingAction(kycRoutes.companyDone),
 
   // dashboard
-  goToDashboard: () => createRoutingAction(appRoutes.dashboard)
+  goToDashboard: () => createRoutingAction(appRoutes.dashboard),
+
+  // registration
+  goToRegister: () => createRoutingAction(appRoutes.register),
 
   // other...
 };

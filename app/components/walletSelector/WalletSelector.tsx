@@ -9,6 +9,9 @@ import { WalletMessageSigner } from "./WalletMessageSigner";
 import { WalletRouter } from "./WalletRouter";
 import { walletRoutes } from "./walletRoutes";
 import * as styles from "./WalletSelector.module.scss";
+import { onEnterAction } from "../../utils/OnEnterAction";
+import { actions } from "../../modules/actions";
+import { compose } from "redux";
 
 interface IStateProps {
   isMessageSigning: boolean;
@@ -63,8 +66,13 @@ export const WalletSelectorComponent: React.SFC<IStateProps> = ({ isMessageSigni
   </LayoutRegisterLogin>
 );
 
-export const WalletSelector = appConnect<IStateProps>({
-  stateToProps: s => ({
-    isMessageSigning: s.walletSelector.isMessageSigning,
+export const WalletSelector = compose<React.SFC>(
+  onEnterAction({
+    actionCreator: dispatch => () => dispatch(actions.wallet.reset()),
   }),
-})(WalletSelectorComponent);
+  appConnect<IStateProps>({
+    stateToProps: s => ({
+      isMessageSigning: s.walletSelector.isMessageSigning,
+    }),
+  }),
+)(WalletSelectorComponent);

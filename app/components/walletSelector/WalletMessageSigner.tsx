@@ -33,7 +33,10 @@ export const WalletMessageSigner = compose(
       errorMsg: state.walletSelector.messageSigningError,
     }),
     dispatchToProps: dispatch => ({
-      cancelSigning: () => dispatch(actions.wallet.messageSigningCancelled()),
+      cancelSigning: () => {
+        dispatch(actions.wallet.reset());
+        dispatch(actions.routing.goToRegister());
+      },
     }),
   }),
 )(MessageSignerComponent);
